@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="ru" class="js">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RUBS_New</title>
+  <meta name="description" content="RUBS_New: начинающий разработчик. Python, проекты и контакты." />
+  <meta name="theme-color" content="#141414" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --m3-bg: #141414;
+      --m3-surface-lowest: #0c0d10;
+      --m3-surface-low: rgba(28, 29, 34, 0.72);
+      --m3-surface: rgba(36, 37, 44, 0.76);
+      --m3-surface-high: rgba(47, 48, 58, 0.82);
+      --m3-surface-highest: rgba(59, 60, 72, 0.88);
+
+      --m3-primary: #a9b3ea;
+      --m3-primary-hover: #c4ccf7;
+      --m3-on-primary: #121424;
+      --m3-primary-container: rgba(169, 179, 234, 0.16);
+      --m3-on-primary-container: #d9defb;
+
+      --m3-on-surface: #ececf2;
+      --m3-on-surface-variant: #9d9fae;
+      --m3-on-surface-muted: #6c6e7c;
+
+      --m3-radius-outer: 26px;
+      --m3-radius-inner: 6px;
+      --m3-radius-pill: 22px;
+      --m3-radius-pill-sm: 19px;
+      --m3-radius-pill-lg: 26px;
+      --m3-gap: 3px;
+
+      --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'DM Mono', ui-monospace, monospace;
+
+      --m3-spring-morph: cubic-bezier(0.22, 1.4, 0.36, 1);
+      --m3-spring-smooth: cubic-bezier(0.2, 0, 0, 1);
+      --header-h: 58px;
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: #0c0d10;
+      color: var(--m3-on-surface);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--m3-on-surface);
+      overflow-x: hidden;
+      -webkit-user-select: none;
+      user-select: none;
+      position: relative;
+    }
+
+    /* Стартовый экран-заставка */
+    .enter-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background-color: #0c0d10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      cursor: pointer;
+      transition: opacity 0.6s cubic-bezier(0.2, 0, 0, 1), visibility 0.6s;
+    }
+
+    .enter-screen.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .enter-text {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      letter-spacing: 0.12em;
+      color: var(--m3-primary);
+      text-transform: uppercase;
+      animation: pulseText 1.8s ease-in-out infinite;
+    }
+
+    .enter-hint {
+      font-size: 0.85rem;
+      color: var(--m3-on-surface-muted);
+      font-family: var(--font-mono);
+    }
+
+    @keyframes pulseText {
+      0%, 100% { opacity: 0.45; transform: scale(0.98); }
+      50% { opacity: 1; transform: scale(1.02); }
+    }
+
+    /* Видео фон */
+    .bg-video {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translate(-50%, -50%) scale(1.08);
+      object-fit: cover;
+      pointer-events: none;
+      z-index: -2;
+      filter: blur(10px) brightness(0.65) saturate(1.2);
+    }
+
+    .lomo-vignette {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background: 
+        radial-gradient(circle at 50% 25%, rgba(169, 179, 234, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 50% 50%, transparent 30%, rgba(10, 11, 14, 0.75) 100%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+    a, button, [data-ripple] { touch-action: manipulation; }
+
+    :focus-visible {
+      outline: 2px solid var(--m3-primary);
+      outline-offset: 2px;
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .material-symbols-rounded {
+      font-family: 'Material Symbols Rounded' !important;
+      font-weight: normal;
+      font-style: normal;
+      font-size: 24px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: normal;
+      text-transform: none;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      flex-shrink: 0;
+      transition: transform 280ms var(--m3-spring-morph);
+    }
+
+    .m3-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 46px;
+      padding: 0 22px;
+      border-radius: var(--m3-radius-pill);
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      transition:
+        border-radius 320ms var(--m3-spring-morph),
+        padding 320ms var(--m3-spring-morph),
+        transform 240ms var(--m3-spring-morph),
+        background-color 180ms ease,
+        color 180ms ease;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .m3-btn:hover { padding: 0 26px; }
+    }
+
+    .m3-btn:active, .m3-btn.is-pressed {
+      padding: 0 29px;
+      border-radius: 14px;
+      transform: scale(0.975);
+    }
+
+    .m3-btn-primary {
+      background-color: var(--m3-primary);
+      color: var(--m3-on-primary);
+      font-weight: 600;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .m3-btn-primary:hover { background-color: var(--m3-primary-hover); }
+    }
+
+    .m3-btn-tonal {
+      background-color: var(--m3-surface-high);
+      color: var(--m3-on-surface);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .m3-btn-tonal:hover { background-color: var(--m3-surface-highest); }
+    }
+
+    .m3-btn-sm { height: 38px; padding: 0 16px; border-radius: var(--m3-radius-pill-sm); font-size: 13px; }
+    .m3-btn-lg { height: 54px; padding: 0 28px; border-radius: var(--m3-radius-pill-lg); font-size: 15px; }
+
+    .bio-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 500;
+      background-color: rgba(20, 20, 20, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      transition: transform 460ms var(--m3-spring-smooth);
+    }
+
+    .bio-nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .bio-brand {
+      display: inline-flex;
+      align-items: center;
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .bio-links {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      margin-left: auto;
+    }
+
+    .bio-link {
+      height: 38px;
+      padding: 0 16px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--m3-on-surface-variant);
+      transition:
+        border-radius 280ms var(--m3-spring-morph),
+        padding 280ms var(--m3-spring-morph),
+        background-color 180ms ease,
+        color 180ms ease;
+    }
+
+    .bio-link.is-current {
+      background-color: var(--m3-surface-high);
+      color: var(--m3-primary);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .bio-link:hover {
+        background-color: var(--m3-surface-low);
+        color: var(--m3-on-surface);
+        border-radius: 19px;
+        padding: 0 20px;
+      }
+    }
+
+    .bio-dock { display: none; }
+
+    .bio-hero {
+      position: relative;
+      min-height: calc(100svh - var(--header-h, 58px));
+      margin-top: var(--header-h, 58px);
+      display: flex;
+      flex-direction: column;
+      padding: 28px 0 40px;
+    }
+
+    .bio-hero-main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+      align-items: center;
+      gap: 40px;
+      padding: 24px 0;
+    }
+
+    .bio-title {
+      font-size: clamp(64px, 11vw, 132px);
+      font-weight: 600;
+      letter-spacing: -0.045em;
+      line-height: 0.92;
+    }
+
+    .bio-lead {
+      max-width: 44ch;
+      margin-top: 22px;
+      font-size: 18px;
+      line-height: 1.55;
+      color: var(--m3-on-surface-variant);
+    }
+
+    .bio-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--m3-gap);
+      margin-top: 32px;
+    }
+
+    .bio-cta > .m3-btn:first-child { border-radius: 26px 6px 6px 26px; }
+    .bio-cta > .m3-btn:last-child { border-radius: 6px 26px 26px 6px; }
+
+    @media (hover: hover) and (pointer: fine) {
+      .bio-cta > .m3-btn:hover { border-radius: 26px; }
+    }
+
+    .bio-avatar-wrap {
+      position: relative;
+      justify-self: center;
+      width: min(100%, 380px);
+      aspect-ratio: 1;
+    }
+
+    .bio-avatar {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 30%;
+      background: var(--m3-surface-low);
+      box-shadow: 0 0 0 1px rgba(169, 179, 234, 0.25), 0 30px 80px rgba(0, 0, 0, 0.65);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-radius 520ms var(--m3-spring-morph), transform 460ms var(--m3-spring-morph);
+      position: relative;
+    }
+
+    .bio-avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .bio-avatar-fallback {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 35% 25%, #ffffff 0%, #e2e5f5 100%);
+    }
+
+    .bio-avatar-fallback span {
+      font-size: clamp(52px, 8vw, 96px);
+      font-weight: 800;
+      color: #1a1c2a;
+      letter-spacing: -2px;
+      user-select: none;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .bio-avatar:hover {
+        border-radius: 50%;
+        transform: rotate(-4deg);
+      }
+    }
+
+    .bio-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--m3-gap);
+      border-radius: var(--m3-radius-outer);
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .strip-cell {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+      padding: 18px 22px;
+      background-color: var(--m3-surface-low);
+    }
+
+    .strip-ico {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background-color: var(--m3-surface-high);
+      color: var(--m3-primary);
+    }
+
+    .strip-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .strip-lbl {
+      font-size: 12px;
+      color: var(--m3-on-surface-variant);
+    }
+
+    .strip-val {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--m3-on-surface);
+    }
+
+    .m3-section {
+      padding: 0;
+      margin-top: 112px;
+      scroll-margin-top: calc(var(--header-h, 58px) + 30px);
+    }
+
+    .bio-hero + .m3-section { margin-top: 72px; }
+
+    .bio-head {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 6px 16px;
+      padding: 0 4px 30px;
+    }
+
+    .bio-idx {
+      font-size: 13px;
+      color: var(--m3-primary);
+      font-weight: 500;
+    }
+
+    .bio-h2 {
+      font-size: clamp(34px, 5vw, 52px);
+      font-weight: 600;
+      letter-spacing: -0.035em;
+      line-height: 1;
+    }
+
+    .bio-grid {
+      display: grid;
+      gap: var(--m3-gap);
+      border-radius: var(--m3-radius-outer);
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .bio-grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .bio-grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .bio-grid.cols-device { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+
+    .m3-grid-cell {
+      background-color: var(--m3-surface-low);
+      padding: 32px;
+      border-radius: var(--m3-radius-inner);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 22px;
+      min-width: 0;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      transition:
+        border-radius 320ms var(--m3-spring-morph),
+        background-color 200ms ease,
+        transform 240ms var(--m3-spring-morph);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .m3-grid-cell.interactive:hover {
+        background-color: var(--m3-surface);
+        border-radius: 20px;
+      }
+    }
+
+    .m3-grid-cell.interactive:active, .m3-grid-cell.interactive.is-pressed {
+      background-color: var(--m3-surface-high);
+      border-radius: 24px;
+      transform: scale(0.99);
+    }
+
+    .dev-placeholder-card {
+      grid-column: 1 / -1;
+      padding: 56px 36px;
+      text-align: center;
+      align-items: center;
+      gap: 16px;
+      background-color: var(--m3-surface-low);
+    }
+
+    .dev-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: var(--m3-radius-pill);
+      background-color: var(--m3-primary-container);
+      color: var(--m3-primary);
+      font-size: 13.5px;
+      font-weight: 500;
+    }
+
+    .dev-title {
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .dev-desc {
+      font-size: 15px;
+      color: var(--m3-on-surface-variant);
+      max-width: 48ch;
+      line-height: 1.6;
+    }
+
+    .cell-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .cell-icon-pill {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background-color: var(--m3-primary-container);
+      color: var(--m3-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition:
+        border-radius 260ms var(--m3-spring-morph),
+        background-color 200ms ease,
+        color 200ms ease,
+        transform 260ms var(--m3-spring-morph);
+    }
+
+    .cell-icon-pill svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .m3-grid-cell:hover .cell-icon-pill {
+        border-radius: 22px;
+        background-color: var(--m3-primary);
+        color: var(--m3-on-primary);
+        transform: scale(1.05);
+      }
+    }
+
+    .cell-title {
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-top: 12px;
+    }
+
+    .cell-chip {
+      font-size: 13px;
+      color: var(--m3-primary);
+    }
+
+    .proj-go {
+      color: var(--m3-on-surface-muted);
+      font-size: 22px;
+      transition: transform 280ms var(--m3-spring-morph), color 200ms ease;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .m3-grid-cell:hover .proj-go {
+        transform: translate(3px, -3px);
+        color: var(--m3-primary);
+      }
+    }
+
+    .about-cell { min-height: 230px; justify-content: flex-start; gap: 20px; }
+    .kv { list-style: none; display: flex; flex-direction: column; margin-top: 14px; }
+    .kv li {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 9px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 14px;
+    }
+    .kv li span { color: var(--m3-on-surface-variant); }
+    .kv li b { font-weight: 500; text-align: right; }
+
+    .device-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+      background: radial-gradient(circle at 50% 55%, var(--m3-surface-high) 0%, var(--m3-surface-low) 62%);
+    }
+
+    .phone-stage {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .phone-single {
+      position: relative;
+      width: 190px;
+      height: 380px;
+      border-radius: 36px;
+      border: 2px solid var(--m3-surface-highest);
+      background-color: var(--m3-surface);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 320ms var(--m3-spring-morph), box-shadow 320ms ease;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .phone-single:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 32px 70px rgba(0, 0, 0, 0.85);
+      }
+    }
+
+    .phone-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .phone-fallback {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      color: var(--m3-on-surface-muted);
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+
+    .device-info-cell {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .device-info-header {
+      margin-bottom: 4px;
+    }
+
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--m3-gap);
+      border-radius: 20px;
+      overflow: hidden;
+      flex: 1;
+    }
+
+    .spec-cell {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      padding: 22px 20px;
+      background-color: var(--m3-surface);
+      border-radius: var(--m3-radius-inner);
+      transition: background-color 180ms ease;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .spec-cell:hover {
+        background-color: var(--m3-surface-high);
+      }
+    }
+
+    .spec-lbl {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--m3-on-surface-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .spec-val {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--m3-on-surface);
+      line-height: 1.4;
+    }
+
+    .bio-footer {
+      padding: 60px 0 36px;
+      background-color: rgba(12, 13, 16, 0.78);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      margin-top: 112px;
+      overflow: hidden;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .bio-wordmark {
+      font-size: clamp(68px, 18vw, 220px);
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      line-height: 0.88;
+      color: var(--m3-surface-high);
+      user-select: none;
+      text-align: center;
+      width: 100%;
+      margin: 0 auto 36px auto;
+      display: block;
+    }
+
+    .bio-foot-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: var(--m3-gap);
+      margin: 0 auto;
+      max-width: 720px;
+      border-radius: 22px;
+      overflow: hidden;
+    }
+
+    .bio-foot-links a {
+      flex: 1 1 140px;
+      height: 44px;
+      padding: 0 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--m3-radius-inner);
+      background-color: var(--m3-surface-low);
+      font-size: 14px;
+      color: var(--m3-on-surface-variant);
+      transition: all 260ms var(--m3-spring-morph);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .bio-foot-links a:hover {
+        background-color: var(--m3-surface-high);
+        color: var(--m3-primary);
+        border-radius: 16px;
+      }
+    }
+
+    .bio-foot-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 36px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      color: var(--m3-on-surface-muted);
+    }
+
+    .bio-up {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 36px;
+      padding: 0 14px;
+      border-radius: 18px;
+      background-color: var(--m3-surface-low);
+      color: var(--m3-on-surface-variant);
+      transition: all 260ms var(--m3-spring-morph);
+    }
+
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 520ms var(--m3-spring-smooth), transform 620ms var(--m3-spring-smooth);
+    }
+    .js .reveal.in {
+      opacity: 1;
+      transform: none;
+    }
+
+    .m3-ripple-wave {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: scale(0.1);
+      opacity: 1;
+      animation: m3RippleExpand 560ms cubic-bezier(0.2, 0, 0, 1) forwards;
+    }
+    .m3-ripple-fill {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle closest-side, var(--m3-primary) 0%, var(--m3-primary) 55%, transparent 100%);
+      opacity: 0.16;
+    }
+    @keyframes m3RippleExpand { to { transform: scale(1); } }
+
+    @media (max-width: 980px) {
+      .bio-hero-main {
+        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-areas:
+          'av ttl'
+          'lead lead'
+          'cta cta';
+        align-content: center;
+        column-gap: 20px;
+        row-gap: 22px;
+      }
+      .bio-title { grid-area: ttl; }
+      .bio-lead { grid-area: lead; margin-top: 0; }
+      .bio-cta { grid-area: cta; margin-top: 0; }
+      .bio-avatar-wrap { grid-area: av; justify-self: start; width: 118px; }
+      .bio-grid.cols-3, .bio-grid.cols-device { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    @media (max-width: 760px) {
+      .bio-nav-inner { padding: 9px 16px; justify-content: space-between; }
+      .bio-links { display: none; }
+      body.at-hero .bio-nav { transform: translateY(-101%); pointer-events: none; }
+      .bio-hero { min-height: calc(100svh - 80px); margin-top: 0; }
+      
+      .bio-dock {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 600;
+        display: flex;
+        padding: 10px 8px calc(10px + env(safe-area-inset-bottom, 0px));
+        background-color: rgba(28, 29, 34, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .dock-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        color: var(--m3-on-surface-variant);
+        font-size: 11.5px;
+        font-weight: 500;
+      }
+      .dock-ico {
+        width: 48px;
+        height: 28px;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        transition: width 340ms var(--m3-spring-morph), background-color 220ms ease;
+      }
+      .dock-item.is-current .dock-ico {
+        width: 56px;
+        background-color: var(--m3-primary);
+        color: var(--m3-on-primary);
+      }
+      .bio-footer { padding-bottom: 96px; }
+    }
+
+    @media (max-width: 620px) {
+      .bio-hero-main { column-gap: 16px; row-gap: 20px; }
+      .bio-avatar-wrap { width: 92px; }
+      .bio-lead { font-size: 16px; }
+      .bio-title { font-size: clamp(48px, 16vw, 68px); }
+      .bio-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .strip-cell:first-child { grid-column: 1 / -1; }
+      .bio-grid.cols-2, .bio-grid.cols-3 { grid-template-columns: minmax(0, 1fr); }
+      .spec-grid { grid-template-columns: minmax(0, 1fr); }
+    }
+  </style>
+</head>
+<body class="is-home at-hero">
+
+  <!-- Заставка перед входом на сайт -->
+  <div class="enter-screen" id="enter-screen">
+    <div class="enter-text">Нажми, чтобы продолжить</div>
+    <div class="enter-hint">Кликни в любом месте</div>
+  </div>
+
+  <!-- Фоновое видео fon.mp4 -->
+  <video class="bg-video" id="bg-video" loop muted playsinline preload="auto">
+    <source src="fon.mp4" type="video/mp4" />
+  </video>
+  <div class="lomo-vignette" aria-hidden="true"></div>
+
+  <header class="bio-nav">
+    <div class="bio-nav-inner">
+      <a href="#top" class="bio-brand" aria-label="RUBS_New, наверх">
+        <span class="bio-brand-name">RUBS_New</span>
+      </a>
+
+      <nav class="bio-links" aria-label="Навигация">
+        <a href="#projects" class="bio-link" data-ripple data-spy="projects">Проекты</a>
+        <a href="#about" class="bio-link" data-ripple data-spy="about">Обо мне</a>
+        <a href="#device" class="bio-link" data-ripple data-spy="device">Сетап</a>
+        <a href="#contact" class="bio-link" data-ripple data-spy="contact">Связь</a>
+      </nav>
+
+      <a href="https://t.me/RUBS_New" target="_blank" rel="noopener" class="m3-btn m3-btn-primary m3-btn-sm bio-nav-cta" data-ripple>
+        <span>Telegram</span>
+        <span class="material-symbols-rounded" style="font-size:16px;">arrow_outward</span>
+      </a>
+    </div>
+  </header>
+
+  <nav class="bio-dock" aria-label="Разделы">
+    <a href="#projects" class="dock-item" data-ripple data-spy="projects"><span class="dock-ico"><span class="material-symbols-rounded">work</span></span><span>Проекты</span></a>
+    <a href="#about" class="dock-item" data-ripple data-spy="about"><span class="dock-ico"><span class="material-symbols-rounded">person</span></span><span>Обо мне</span></a>
+    <a href="#device" class="dock-item" data-ripple data-spy="device"><span class="dock-ico"><span class="material-symbols-rounded">desktop_windows</span></span><span>Сетап</span></a>
+    <a href="#contact" class="dock-item" data-ripple data-spy="contact"><span class="dock-ico"><span class="material-symbols-rounded">send</span></span><span>Связь</span></a>
+  </nav>
+
+  <main id="top" class="container">
+
+    <section class="bio-hero">
+      <div class="bio-hero-main">
+        <div class="bio-hero-copy">
+          <h1 class="bio-title">RUBS_New</h1>
+          <p class="bio-lead">Изучаю разработку на Python, настраиваю системы и экспериментирую с железом. Если есть вопросы или идеи — пишите.</p>
+          <div class="bio-cta">
+            <a href="https://t.me/RUBS_New" target="_blank" rel="noopener" class="m3-btn m3-btn-primary m3-btn-lg" data-ripple>
+              <span>Написать в Telegram</span>
+              <span class="material-symbols-rounded">arrow_outward</span>
+            </a>
+            <a href="#projects" class="m3-btn m3-btn-tonal m3-btn-lg" data-ripple>
+              <span>Проекты</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="bio-avatar-wrap" aria-hidden="true">
+          <div class="bio-avatar">
+            <img src="avatar.jpg" alt="Avatar" class="bio-avatar-img" onerror="this.style.display='none'; document.getElementById('avatar-fallback').style.display='flex';" />
+            <div class="bio-avatar-fallback" id="avatar-fallback" style="display: none;">
+              <span>RN</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bio-strip">
+        <div class="strip-cell">
+          <span class="strip-ico material-symbols-rounded">code</span>
+          <span class="strip-text">
+            <span class="strip-lbl">Основной стек</span>
+            <span class="strip-val">Python (учу)</span>
+          </span>
+        </div>
+        <div class="strip-cell">
+          <span class="strip-ico material-symbols-rounded">schedule</span>
+          <span class="strip-text">
+            <span class="strip-lbl">Моё время</span>
+            <span class="strip-val mono" id="hero-time">--:--<span class="tz"> · MSK+4</span></span>
+          </span>
+        </div>
+        <div class="strip-cell">
+          <span class="strip-ico material-symbols-rounded">construction</span>
+          <span class="strip-text">
+            <span class="strip-lbl">Статус проектов</span>
+            <span class="strip-val mono" style="color:var(--m3-primary);">В разработке</span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section class="m3-section reveal" id="projects">
+      <div class="bio-head">
+        <span class="bio-idx mono">01</span>
+        <h2 class="bio-h2">Проекты</h2>
+      </div>
+
+      <div class="bio-grid cols-2">
+        <div class="m3-grid-cell dev-placeholder-card">
+          <span class="dev-badge mono">
+            <span class="material-symbols-rounded" style="font-size:18px;">terminal</span>
+            <span>Coming Soon</span>
+          </span>
+          <h3 class="dev-title">Проекты в разработке</h3>
+          <p class="dev-desc">Сейчас активно учу Python и практикую базу. Скоро здесь появятся первые скрипты, пет-проекты и полезные утилиты.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="m3-section reveal" id="about">
+      <div class="bio-head">
+        <span class="bio-idx mono">02</span>
+        <h2 class="bio-h2">Обо мне</h2>
+      </div>
+
+      <div class="bio-grid cols-2">
+        <div class="m3-grid-cell about-cell">
+          <div class="cell-top-row">
+            <span class="cell-icon-pill"><span class="material-symbols-rounded">person</span></span>
+          </div>
+          <div>
+            <h3 class="cell-title">Профиль</h3>
+            <ul class="kv">
+              <li><span>Ник</span><b>RUBS_New</b></li>
+              <li><span>Регион</span><b>Россия, Новосибирск</b></li>
+              <li><span>Моё время</span><b class="mono" id="about-time">--:--:-- (MSK+4)</b></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="m3-grid-cell about-cell">
+          <div class="cell-top-row">
+            <span class="cell-icon-pill"><span class="material-symbols-rounded">code</span></span>
+          </div>
+          <div>
+            <h3 class="cell-title">Стек</h3>
+            <ul class="kv">
+              <li><span>Язык</span><b>Python (учу)</b></li>
+              <li><span>База</span><b>Скрипты, логика, ООП</b></li>
+              <li><span>Статус</span><b>Активное обучение</b></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="m3-grid-cell about-cell">
+          <div class="cell-top-row">
+            <span class="cell-icon-pill"><span class="material-symbols-rounded">fitness_center</span></span>
+          </div>
+          <div>
+            <h3 class="cell-title">Спорт</h3>
+            <ul class="kv">
+              <li><span>Дисциплина</span><b>Триатлон</b></li>
+              <li><span>Формат</span><b>Плавание • Вело • Бег</b></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="m3-grid-cell about-cell">
+          <div class="cell-top-row">
+            <span class="cell-icon-pill"><span class="material-symbols-rounded">desktop_windows</span></span>
+          </div>
+          <div>
+            <h3 class="cell-title">Железо</h3>
+            <ul class="kv">
+              <li><span>ПК</span><b>i5-9400F, GTX 1650, 16GB</b></li>
+              <li><span>Телефон</span><b>iQOO Z10 Turbo Pro</b></li>
+              <li><span>3D-принтер</span><b>Ender 3 V3 SE</b></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="m3-section reveal" id="device">
+      <div class="bio-head">
+        <span class="bio-idx mono">03</span>
+        <h2 class="bio-h2">Сетап</h2>
+      </div>
+
+      <div class="bio-grid cols-device">
+        <div class="m3-grid-cell device-visual">
+          <div class="phone-stage">
+            <div class="phone-single">
+              <img src="back.png" alt="Phone" class="phone-img" onerror="this.style.display='none'; document.getElementById('phone-fallback').style.display='flex';" />
+              <div class="phone-fallback" id="phone-fallback" style="display: none;">
+                <span class="material-symbols-rounded" style="font-size:32px;">smartphone</span>
+                <span>back.png</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="m3-grid-cell device-info-cell">
+          <div class="device-info-header">
+            <h3 class="cell-title">Рабочее место & Девайсы</h3>
+            <p style="color:var(--m3-on-surface-variant); margin-top:6px; font-size:14.5px;">Конфигурация для учебы, написания кода и 3D-печати.</p>
+          </div>
+          <div class="spec-grid">
+            <div class="spec-cell">
+              <span class="spec-lbl">Клавиатура</span>
+              <span class="spec-val mono">Cidoo qk61 v2</span>
+            </div>
+            <div class="spec-cell">
+              <span class="spec-lbl">Мышь</span>
+              <span class="spec-val mono">IO NOVA</span>
+            </div>
+            <div class="spec-cell">
+              <span class="spec-lbl">Процессор</span>
+              <span class="spec-val mono">Intel Core i5-9400F</span>
+            </div>
+            <div class="spec-cell">
+              <span class="spec-lbl">Смартфон</span>
+              <span class="spec-val mono">iQOO Z10 Turbo Pro</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="m3-section reveal" id="contact">
+      <div class="bio-head">
+        <span class="bio-idx mono">04</span>
+        <h2 class="bio-h2">Связь</h2>
+      </div>
+
+      <div class="bio-grid cols-3">
+        <a href="https://t.me/RUBS_New" class="m3-grid-cell interactive" target="_blank" rel="noopener" data-ripple>
+          <div class="cell-top-row">
+            <span class="cell-icon-pill">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+            </span>
+            <span class="material-symbols-rounded proj-go">arrow_outward</span>
+          </div>
+          <div>
+            <h3 class="cell-title">Telegram</h3>
+            <span class="mono cell-chip">RUBS_New</span>
+          </div>
+        </a>
+
+        <a href="https://github.com/RUBS_New" class="m3-grid-cell interactive" target="_blank" rel="noopener" data-ripple>
+          <div class="cell-top-row">
+            <span class="cell-icon-pill">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            </span>
+            <span class="material-symbols-rounded proj-go">arrow_outward</span>
+          </div>
+          <div>
+            <h3 class="cell-title">GitHub</h3>
+            <span class="mono cell-chip">RUBS_New</span>
+          </div>
+        </a>
+
+        <a href="https://www.tiktok.com/@RUBS_New" class="m3-grid-cell interactive" target="_blank" rel="noopener" data-ripple>
+          <div class="cell-top-row">
+            <span class="cell-icon-pill">
+              <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+            </span>
+            <span class="material-symbols-rounded proj-go">arrow_outward</span>
+          </div>
+          <div>
+            <h3 class="cell-title">TikTok</h3>
+            <span class="mono cell-chip">RUBS_New</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bio-footer">
+    <div class="container">
+      <div class="bio-wordmark mono" aria-hidden="true">RUBS_NEW</div>
+      <nav class="bio-foot-links" aria-label="Ссылки">
+        <a href="#projects" data-ripple>Проекты</a>
+        <a href="#about" data-ripple>Обо мне</a>
+        <a href="#device" data-ripple>Сетап</a>
+        <a href="#contact" data-ripple>Связь</a>
+      </nav>
+      <div class="bio-foot-bottom">
+        <span>© 2026 RUBS_New</span>
+        <a href="#top" class="bio-up" data-ripple><span>Наверх</span><span class="material-symbols-rounded">arrow_upward</span></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Логика стартового экрана и принудительного воспроизведения видео
+    document.addEventListener('DOMContentLoaded', () => {
+      const enterScreen = document.getElementById('enter-screen');
+      const vid = document.getElementById('bg-video');
+
+      function startSite() {
+        if (enterScreen.classList.contains('is-hidden')) return;
+        enterScreen.classList.add('is-hidden');
+
+        if (vid) {
+          vid.muted = true;
+          vid.play().catch(err => {
+            console.warn('Автовоспроизведение заблокировано браузером:', err);
+          });
+        }
+      }
+
+      enterScreen.addEventListener('click', startSite);
+      enterScreen.addEventListener('touchstart', startSite, { passive: true });
+    });
+
+    function updateClock() {
+      const opt = { timeZone: 'Asia/Novosibirsk', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+      const now = new Intl.DateTimeFormat([], opt).format(new Date());
+      const heroTime = document.getElementById('hero-time');
+      const aboutTime = document.getElementById('about-time');
+      if (heroTime) heroTime.innerHTML = `${now.slice(0, 5)}<span class="tz"> · MSK+4</span>`;
+      if (aboutTime) aboutTime.textContent = `${now} (MSK+4)`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function initHeader() {
+      const header = document.querySelector('.bio-nav');
+      const sync = () => {
+        if (!header) return;
+        document.documentElement.style.setProperty('--header-h', `${Math.round(header.offsetHeight)}px`);
+      };
+      sync();
+      window.addEventListener('resize', sync);
+
+      const links = document.querySelectorAll('[data-spy]');
+      const hero = document.querySelector('.bio-hero');
+      const ids = ['projects', 'about', 'device', 'contact'];
+      let ticking = false;
+
+      const spy = () => {
+        ticking = false;
+        let cur = null;
+        const line = (header?.offsetHeight || 60) + window.innerHeight * 0.25;
+        for (const id of ids) {
+          const el = document.getElementById(id);
+          if (el && el.getBoundingClientRect().top <= line) cur = id;
+        }
+        links.forEach(l => l.classList.toggle('is-current', l.dataset.spy === cur));
+        if (hero) document.body.classList.toggle('at-hero', window.scrollY < hero.offsetHeight * 0.6);
+      };
+
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(spy);
+        }
+      }, { passive: true });
+      spy();
+    }
+
+    function initReveal() {
+      const els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(e => e.classList.add('in'));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
+      els.forEach(e => io.observe(e));
+    }
+
+    document.addEventListener('pointerdown', (e) => {
+      const target = e.target.closest('[data-ripple]');
+      if (!target) return;
+
+      const rect = target.getBoundingClientRect();
+      const wave = document.createElement('span');
+      wave.className = 'm3-ripple-wave';
+
+      const d = Math.max(rect.width, rect.height) * 2;
+      wave.style.width = wave.style.height = `${d}px`;
+      wave.style.left = `${e.clientX - rect.left - d / 2}px`;
+      wave.style.top = `${e.clientY - rect.top - d / 2}px`;
+
+      const fill = document.createElement('span');
+      fill.className = 'm3-ripple-fill';
+      wave.appendChild(fill);
+
+      target.appendChild(wave);
+
+      const remove = () => {
+        wave.style.opacity = '0';
+        wave.style.transition = 'opacity 300ms ease';
+        setTimeout(() => wave.remove(), 320);
+        window.removeEventListener('pointerup', remove);
+        window.removeEventListener('pointercancel', remove);
+      };
+
+      window.addEventListener('pointerup', remove);
+      window.addEventListener('pointercancel', remove);
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initHeader();
+      initReveal();
+    });
+  </script>
+</body>
+</html>
