@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#141414" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
 
   <style>
@@ -188,11 +188,11 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      height: 46px;
-      padding: 0 22px;
+      gap: 10px;
+      height: 48px;
+      padding: 0 24px;
       border-radius: var(--m3-radius-pill);
-      font-size: 14px;
+      font-size: 14.5px;
       font-weight: 500;
       white-space: nowrap;
       flex-shrink: 0;
@@ -208,11 +208,11 @@
     }
 
     @media (hover: hover) and (pointer: fine) {
-      .m3-btn:hover { padding: 0 26px; }
+      .m3-btn:hover { padding: 0 28px; }
     }
 
     .m3-btn:active, .m3-btn.is-pressed {
-      padding: 0 29px;
+      padding: 0 30px;
       border-radius: 14px;
       transform: scale(0.975);
     }
@@ -239,7 +239,31 @@
     }
 
     .m3-btn-sm { height: 38px; padding: 0 16px; border-radius: var(--m3-radius-pill-sm); font-size: 13px; }
-    .m3-btn-lg { height: 54px; padding: 0 28px; border-radius: var(--m3-radius-pill-lg); font-size: 15px; }
+    .m3-btn-lg { height: 52px; padding: 0 26px; border-radius: var(--m3-radius-pill-lg); font-size: 15px; }
+
+    .music-btn {
+      position: fixed;
+      top: 14px;
+      right: 18px;
+      z-index: 650;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--m3-surface-high);
+      color: var(--m3-on-surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 240ms var(--m3-spring-morph);
+    }
+
+    .music-btn.is-muted {
+      color: var(--m3-on-surface-muted);
+      opacity: 0.7;
+    }
 
     .bio-nav {
       position: fixed;
@@ -346,16 +370,12 @@
     .bio-cta {
       display: flex;
       flex-wrap: wrap;
-      gap: var(--m3-gap);
+      gap: 10px;
       margin-top: 32px;
     }
 
-    .bio-cta > .m3-btn:first-child { border-radius: 26px 6px 6px 26px; }
-    .bio-cta > .m3-btn:last-child { border-radius: 6px 26px 26px 6px; }
-
-    @media (hover: hover) and (pointer: fine) {
-      .bio-cta > .m3-btn:hover { border-radius: 26px; }
-    }
+    .bio-cta > .m3-btn:first-child { border-radius: 26px; }
+    .bio-cta > .m3-btn:last-child { border-radius: 26px; }
 
     .bio-avatar-wrap {
       position: relative;
@@ -904,15 +924,20 @@
         flex-direction: row;
         justify-content: center;
         width: 100%;
-        gap: 8px;
+        gap: 10px;
         margin-top: 20px;
       }
 
       .bio-cta > .m3-btn {
         flex: 1;
         padding: 0 16px;
-        font-size: 13.5px;
-        height: 48px;
+        font-size: 14px;
+        height: 50px;
+        gap: 8px;
+      }
+
+      .bio-cta > .m3-btn .material-symbols-rounded {
+        font-size: 20px;
       }
 
       .bio-strip {
@@ -985,6 +1010,14 @@
     <div class="enter-hint">Кликни в любом месте</div>
   </div>
 
+  <audio id="bg-audio" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg" />
+  </audio>
+
+  <button class="music-btn" id="music-toggle" aria-label="Звук" data-ripple>
+    <span class="material-symbols-rounded" id="music-icon" style="font-size:20px;">volume_up</span>
+  </button>
+
   <video class="bg-video" id="bg-video" loop muted playsinline preload="auto">
     <source src="fon.mp4" type="video/mp4" />
   </video>
@@ -1026,7 +1059,7 @@
           <p class="bio-lead">Изучаю разработку на Python, настраиваю системы и экспериментирую с железом. Если есть вопросы или идеи — пишите.</p>
           <div class="bio-cta">
             <a href="https://t.me/RUBS_New" target="_blank" rel="noopener" class="m3-btn m3-btn-primary m3-btn-lg" data-ripple>
-              <span>Написать в Telegram</span>
+              <span>В Telegram</span>
               <span class="material-symbols-rounded">arrow_outward</span>
             </a>
             <a href="#projects" class="m3-btn m3-btn-tonal m3-btn-lg" data-ripple>
@@ -1268,6 +1301,9 @@
     document.addEventListener('DOMContentLoaded', () => {
       const enterScreen = document.getElementById('enter-screen');
       const vid = document.getElementById('bg-video');
+      const audio = document.getElementById('bg-audio');
+      const musicBtn = document.getElementById('music-toggle');
+      const musicIcon = document.getElementById('music-icon');
 
       function startSite() {
         if (!enterScreen || enterScreen.classList.contains('is-hidden')) return;
@@ -1277,11 +1313,37 @@
           vid.muted = true;
           vid.play().catch(err => console.warn(err));
         }
+
+        if (audio) {
+          audio.volume = 0.35;
+          audio.play().catch(err => {
+            console.warn('Аудио заблокировано браузером:', err);
+            if (musicBtn && musicIcon) {
+              musicBtn.classList.add('is-muted');
+              musicIcon.textContent = 'volume_off';
+            }
+          });
+        }
       }
 
       if (enterScreen) {
         enterScreen.addEventListener('click', startSite);
         enterScreen.addEventListener('touchstart', startSite, { passive: true });
+      }
+
+      if (musicBtn && audio && musicIcon) {
+        musicBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (audio.paused) {
+            audio.play();
+            musicBtn.classList.remove('is-muted');
+            musicIcon.textContent = 'volume_up';
+          } else {
+            audio.pause();
+            musicBtn.classList.add('is-muted');
+            musicIcon.textContent = 'volume_off';
+          }
+        });
       }
     });
 
