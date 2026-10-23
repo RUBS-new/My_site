@@ -97,7 +97,7 @@
 
     .enter-text {
       font-family: var(--font-mono);
-      font-size: 1.15rem;
+      font-size: 1.25rem;
       letter-spacing: 0.12em;
       color: var(--m3-primary);
       text-transform: uppercase;
@@ -921,23 +921,17 @@
 
       .bio-cta {
         display: flex;
-        flex-direction: row;
-        justify-content: center;
+        flex-direction: column;
         width: 100%;
         gap: 10px;
         margin-top: 20px;
       }
 
       .bio-cta > .m3-btn {
-        flex: 1;
-        padding: 0 16px;
-        font-size: 14px;
+        width: 100%;
+        padding: 0 20px;
+        font-size: 14.5px;
         height: 50px;
-        gap: 8px;
-      }
-
-      .bio-cta > .m3-btn .material-symbols-rounded {
-        font-size: 20px;
       }
 
       .bio-strip {
@@ -1006,8 +1000,8 @@
 <body class="is-home at-hero">
 
   <div class="enter-screen" id="enter-screen">
-    <div class="enter-text">Нажми, чтобы продолжить</div>
-    <div class="enter-hint">Кликни в любом месте</div>
+    <div class="enter-text" id="enter-text">3</div>
+    <div class="enter-hint" id="enter-hint">Загрузка ресурсов...</div>
   </div>
 
   <audio id="bg-audio" loop preload="auto">
@@ -1059,7 +1053,7 @@
           <p class="bio-lead">Изучаю разработку на Python, настраиваю системы и экспериментирую с железом. Если есть вопросы или идеи — пишите.</p>
           <div class="bio-cta">
             <a href="https://t.me/RUBS_New" target="_blank" rel="noopener" class="m3-btn m3-btn-primary m3-btn-lg" data-ripple>
-              <span>В Telegram</span>
+              <span>Написать в Telegram</span>
               <span class="material-symbols-rounded">arrow_outward</span>
             </a>
             <a href="#projects" class="m3-btn m3-btn-tonal m3-btn-lg" data-ripple>
@@ -1300,12 +1294,34 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const enterScreen = document.getElementById('enter-screen');
+      const enterText = document.getElementById('enter-text');
+      const enterHint = document.getElementById('enter-hint');
       const vid = document.getElementById('bg-video');
       const audio = document.getElementById('bg-audio');
       const musicBtn = document.getElementById('music-toggle');
       const musicIcon = document.getElementById('music-icon');
 
+      let isReady = false;
+      let count = 3;
+
+      if (vid) {
+        vid.load();
+      }
+
+      const timer = setInterval(() => {
+        count--;
+        if (count > 0) {
+          if (enterText) enterText.textContent = count;
+        } else {
+          clearInterval(timer);
+          isReady = true;
+          if (enterText) enterText.textContent = 'Нажми, чтобы продолжить';
+          if (enterHint) enterHint.textContent = 'Кликни в любом месте';
+        }
+      }, 1000);
+
       function startSite() {
+        if (!isReady) return;
         if (!enterScreen || enterScreen.classList.contains('is-hidden')) return;
         enterScreen.classList.add('is-hidden');
 
@@ -1317,7 +1333,6 @@
         if (audio) {
           audio.volume = 0.245;
           audio.play().catch(err => {
-            console.warn('Аудио заблокировано браузером:', err);
             if (musicBtn && musicIcon) {
               musicBtn.classList.add('is-muted');
               musicIcon.textContent = 'volume_off';
