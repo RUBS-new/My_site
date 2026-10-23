@@ -241,74 +241,6 @@
     .m3-btn-sm { height: 38px; padding: 0 16px; border-radius: var(--m3-radius-pill-sm); font-size: 13px; }
     .m3-btn-lg { height: 52px; padding: 0 26px; border-radius: var(--m3-radius-pill-lg); font-size: 15px; }
 
-    .music-btn {
-      position: fixed;
-      top: 14px;
-      right: 18px;
-      z-index: 650;
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background-color: var(--m3-surface-high);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      transition: all 240ms var(--m3-spring-morph);
-    }
-
-    .eq-wrap {
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      gap: 3px;
-      width: 18px;
-      height: 16px;
-    }
-
-    .eq-bar {
-      width: 3px;
-      border-radius: 2px;
-      background-color: var(--m3-primary);
-      height: 4px;
-      transition: height 180ms ease, background-color 200ms ease;
-    }
-
-    .music-btn.is-playing .eq-bar:nth-child(1) {
-      animation: eqBounce1 0.8s ease-in-out infinite alternate;
-    }
-    .music-btn.is-playing .eq-bar:nth-child(2) {
-      animation: eqBounce2 0.7s ease-in-out infinite alternate;
-    }
-    .music-btn.is-playing .eq-bar:nth-child(3) {
-      animation: eqBounce3 0.9s ease-in-out infinite alternate;
-    }
-
-    @keyframes eqBounce1 {
-      0% { height: 4px; }
-      100% { height: 16px; }
-    }
-    @keyframes eqBounce2 {
-      0% { height: 16px; }
-      100% { height: 6px; }
-    }
-    @keyframes eqBounce3 {
-      0% { height: 6px; }
-      100% { height: 14px; }
-    }
-
-    .music-btn.is-muted .eq-bar {
-      background-color: var(--m3-on-surface-muted);
-      height: 3px;
-      animation: none !important;
-    }
-
-    .music-btn.is-muted {
-      opacity: 0.75;
-    }
-
     .bio-nav {
       position: fixed;
       top: 0;
@@ -328,7 +260,7 @@
       padding: 10px 24px;
       display: flex;
       align-items: center;
-      gap: 24px;
+      gap: 20px;
     }
 
     .bio-brand {
@@ -374,6 +306,80 @@
         border-radius: 19px;
         padding: 0 20px;
       }
+    }
+
+    .bio-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .music-btn {
+      position: relative;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background-color: var(--m3-surface-high);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: all 240ms var(--m3-spring-morph);
+    }
+
+    .eq-wrap {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 3px;
+      width: 16px;
+      height: 14px;
+    }
+
+    .eq-bar {
+      width: 2.5px;
+      border-radius: 2px;
+      background-color: var(--m3-primary);
+      height: 4px;
+      transition: height 180ms ease, background-color 200ms ease;
+    }
+
+    .music-btn.is-playing .eq-bar:nth-child(1) {
+      animation: eqBounce1 0.8s ease-in-out infinite alternate;
+    }
+    .music-btn.is-playing .eq-bar:nth-child(2) {
+      animation: eqBounce2 0.7s ease-in-out infinite alternate;
+    }
+    .music-btn.is-playing .eq-bar:nth-child(3) {
+      animation: eqBounce3 0.9s ease-in-out infinite alternate;
+    }
+
+    @keyframes eqBounce1 {
+      0% { height: 3px; }
+      100% { height: 14px; }
+    }
+    @keyframes eqBounce2 {
+      0% { height: 14px; }
+      100% { height: 5px; }
+    }
+    @keyframes eqBounce3 {
+      0% { height: 5px; }
+      100% { height: 12px; }
+    }
+
+    .music-btn.is-muted .eq-bar {
+      background-color: var(--m3-on-surface-muted);
+      height: 2.5px;
+      animation: none !important;
+    }
+
+    .music-btn.is-muted {
+      opacity: 0.75;
     }
 
     .bio-dock { display: none; }
@@ -929,12 +935,11 @@
 
       .bio-nav-inner { padding: 8px 14px; justify-content: space-between; }
       .bio-links { display: none; }
-      body.at-hero .bio-nav { transform: translateY(-101%); pointer-events: none; }
 
       .bio-hero {
         min-height: auto;
         margin-top: 0;
-        padding: 40px 0 32px;
+        padding: 56px 0 32px;
       }
 
       .bio-hero-main {
@@ -1052,14 +1057,6 @@
     <source src="music.mp3" type="audio/mpeg" />
   </audio>
 
-  <button class="music-btn is-playing" id="music-toggle" aria-label="Звук" data-ripple>
-    <div class="eq-wrap">
-      <span class="eq-bar"></span>
-      <span class="eq-bar"></span>
-      <span class="eq-bar"></span>
-    </div>
-  </button>
-
   <video class="bg-video" id="bg-video" loop muted playsinline preload="auto">
     <source src="fon.mp4" type="video/mp4" />
   </video>
@@ -1078,10 +1075,20 @@
         <a href="#contact" class="bio-link" data-ripple data-spy="contact">Связь</a>
       </nav>
 
-      <a href="https://t.me/RUBS_New" target="_blank" rel="noopener" class="m3-btn m3-btn-primary m3-btn-sm bio-nav-cta" data-ripple>
-        <span>Telegram</span>
-        <span class="material-symbols-rounded" style="font-size:16px;">arrow_outward</span>
-      </a>
+      <div class="bio-nav-actions">
+        <button class="music-btn is-playing" id="music-toggle" aria-label="Звук" data-ripple>
+          <div class="eq-wrap">
+            <span class="eq-bar"></span>
+            <span class="eq-bar"></span>
+            <span class="eq-bar"></span>
+          </div>
+        </button>
+
+        <a href="https://t.me/RUBS_New" target="_blank" rel="noopener" class="m3-btn m3-btn-primary m3-btn-sm bio-nav-cta" data-ripple>
+          <span>Telegram</span>
+          <span class="material-symbols-rounded" style="font-size:16px;">arrow_outward</span>
+        </a>
+      </div>
     </div>
   </header>
 
@@ -1503,7 +1510,6 @@
           if (el && el.getBoundingClientRect().top <= line) cur = id;
         }
         links.forEach(l => l.classList.toggle('is-current', l.dataset.spy === cur));
-        if (hero) document.body.classList.toggle('at-hero', window.scrollY < hero.offsetHeight * 0.6);
       };
 
       window.addEventListener('scroll', () => {
