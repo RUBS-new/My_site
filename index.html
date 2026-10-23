@@ -539,7 +539,7 @@
 
     .bio-strip {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: var(--m3-gap);
       border-radius: var(--m3-radius-outer);
       overflow: hidden;
@@ -948,24 +948,6 @@
       color: var(--m3-on-surface-muted);
     }
 
-    .foot-views {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      height: 34px;
-      padding: 0 14px;
-      border-radius: 17px;
-      background-color: var(--m3-surface-low);
-      color: var(--m3-on-surface-variant);
-      font-size: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .foot-views .material-symbols-rounded {
-      font-size: 16px;
-      color: var(--m3-primary);
-    }
-
     .bio-up {
       display: inline-flex;
       align-items: center;
@@ -1118,11 +1100,6 @@
       }
 
       .bio-footer { padding-bottom: 96px; }
-
-      .bio-foot-bottom {
-        flex-direction: column;
-        gap: 16px;
-      }
     }
   </style>
 </head>
@@ -1230,6 +1207,13 @@
           <div class="strip-text">
             <span class="strip-lbl">Статус проектов</span>
             <span class="strip-val mono" style="color:var(--m3-primary);">В разработке</span>
+          </div>
+        </div>
+        <div class="strip-cell">
+          <span class="strip-ico material-symbols-rounded">visibility</span>
+          <div class="strip-text">
+            <span class="strip-lbl">Просмотры сайта</span>
+            <span class="strip-val mono" id="views-count">...</span>
           </div>
         </div>
       </div>
@@ -1424,10 +1408,6 @@
       </nav>
       <div class="bio-foot-bottom">
         <span>© 2026 RUBS_New</span>
-        <div class="foot-views mono" id="view-counter">
-          <span class="material-symbols-rounded">visibility</span>
-          <span id="views-count">...</span>
-        </div>
         <a href="#top" class="bio-up" data-ripple><span>Наверх</span><span class="material-symbols-rounded">arrow_upward</span></a>
       </div>
     </div>
@@ -1620,22 +1600,21 @@
     async function initViewCounter() {
       const countEl = document.getElementById('views-count');
       if (!countEl) return;
-      const site = 'rubs_new';
+
       try {
-        await fetch(`https://page-views-api.ratneshc.com/api/v1/track?site=${site}&path=/`, { method: 'GET', keepalive: true }).catch(() => {});
-        const res = await fetch(`https://page-views-api.ratneshc.com/api/v1/views?site=${site}&path=/`);
+        const res = await fetch('https://api.counterapi.dev/v1/rubs_new_site/views/up');
         if (res.ok) {
           const data = await res.json();
-          if (data && typeof data.views !== 'undefined') {
-            countEl.textContent = `${data.views}`;
+          if (data && typeof data.count !== 'undefined') {
+            countEl.textContent = `${data.count}`;
             return;
           }
         }
-      } catch (err) {}
+      } catch (e) {}
 
-      let current = parseInt(localStorage.getItem('rubs_view_count') || '1', 10);
-      localStorage.setItem('rubs_view_count', current + 1);
-      countEl.textContent = `${current + 1}`;
+      let local = parseInt(localStorage.getItem('rubs_views') || '0', 10) + 1;
+      localStorage.setItem('rubs_views', local);
+      countEl.textContent = `${local}`;
     }
 
     function updateClock() {
