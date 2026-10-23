@@ -2,7 +2,7 @@
 <html lang="ru" class="js">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>RUBS_New</title>
   <meta name="description" content="RUBS_New: начинающий разработчик. Python, проекты и контакты." />
   <meta name="theme-color" content="#141414" />
@@ -61,10 +61,13 @@
       font-size: 16px;
       line-height: 1.55;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      width: 100%;
     }
 
     body {
       min-height: 100vh;
+      width: 100%;
       color: var(--m3-on-surface);
       overflow-x: hidden;
       -webkit-user-select: none;
@@ -72,7 +75,7 @@
       position: relative;
     }
 
-    /* Стартовый экран-заставка */
+    /* Стартовый экран */
     .enter-screen {
       position: fixed;
       inset: 0;
@@ -100,6 +103,8 @@
       color: var(--m3-primary);
       text-transform: uppercase;
       animation: pulseText 1.8s ease-in-out infinite;
+      text-align: center;
+      padding: 0 16px;
     }
 
     .enter-hint {
@@ -155,6 +160,7 @@
     }
 
     .container {
+      width: 100%;
       max-width: 1100px;
       margin: 0 auto;
       padding: 0 24px;
@@ -325,16 +331,17 @@
     }
 
     .bio-title {
-      font-size: clamp(64px, 11vw, 132px);
-      font-weight: 600;
-      letter-spacing: -0.045em;
-      line-height: 0.92;
+      font-size: clamp(48px, 9vw, 110px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      word-break: break-word;
     }
 
     .bio-lead {
       max-width: 44ch;
-      margin-top: 22px;
-      font-size: 18px;
+      margin-top: 18px;
+      font-size: 17px;
       line-height: 1.55;
       color: var(--m3-on-surface-variant);
     }
@@ -342,21 +349,17 @@
     .bio-cta {
       display: flex;
       flex-wrap: wrap;
-      gap: var(--m3-gap);
-      margin-top: 32px;
+      gap: 8px;
+      margin-top: 28px;
     }
 
-    .bio-cta > .m3-btn:first-child { border-radius: 26px 6px 6px 26px; }
-    .bio-cta > .m3-btn:last-child { border-radius: 6px 26px 26px 6px; }
-
-    @media (hover: hover) and (pointer: fine) {
-      .bio-cta > .m3-btn:hover { border-radius: 26px; }
-    }
+    .bio-cta > .m3-btn:first-child { border-radius: 24px; }
+    .bio-cta > .m3-btn:last-child { border-radius: 24px; }
 
     .bio-avatar-wrap {
       position: relative;
       justify-self: center;
-      width: min(100%, 380px);
+      width: min(100%, 360px);
       aspect-ratio: 1;
     }
 
@@ -364,7 +367,7 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      border-radius: 30%;
+      border-radius: 32%;
       background: var(--m3-surface-low);
       box-shadow: 0 0 0 1px rgba(169, 179, 234, 0.25), 0 30px 80px rgba(0, 0, 0, 0.65);
       cursor: pointer;
@@ -392,7 +395,7 @@
     }
 
     .bio-avatar-fallback span {
-      font-size: clamp(52px, 8vw, 96px);
+      font-size: clamp(48px, 8vw, 88px);
       font-weight: 800;
       color: #1a1c2a;
       letter-spacing: -2px;
@@ -402,7 +405,7 @@
     @media (hover: hover) and (pointer: fine) {
       .bio-avatar:hover {
         border-radius: 50%;
-        transform: rotate(-4deg);
+        transform: rotate(-3deg);
       }
     }
 
@@ -419,16 +422,16 @@
     .strip-cell {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       min-width: 0;
-      padding: 18px 22px;
+      padding: 16px 18px;
       background-color: var(--m3-surface-low);
     }
 
     .strip-ico {
       flex-shrink: 0;
-      width: 44px;
-      height: 44px;
+      width: 42px;
+      height: 42px;
       display: grid;
       place-items: center;
       border-radius: 14px;
@@ -441,33 +444,38 @@
       flex-direction: column;
       gap: 2px;
       min-width: 0;
+      flex: 1;
     }
 
     .strip-lbl {
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--m3-on-surface-variant);
+      white-space: nowrap;
     }
 
     .strip-val {
-      font-size: 15px;
-      font-weight: 500;
+      font-size: 14.5px;
+      font-weight: 600;
       color: var(--m3-on-surface);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .m3-section {
       padding: 0;
-      margin-top: 112px;
-      scroll-margin-top: calc(var(--header-h, 58px) + 30px);
+      margin-top: 88px;
+      scroll-margin-top: calc(var(--header-h, 58px) + 20px);
     }
 
-    .bio-hero + .m3-section { margin-top: 72px; }
+    .bio-hero + .m3-section { margin-top: 64px; }
 
     .bio-head {
       display: flex;
       align-items: baseline;
       flex-wrap: wrap;
-      gap: 6px 16px;
-      padding: 0 4px 30px;
+      gap: 6px 14px;
+      padding: 0 4px 24px;
     }
 
     .bio-idx {
@@ -477,7 +485,7 @@
     }
 
     .bio-h2 {
-      font-size: clamp(34px, 5vw, 52px);
+      font-size: clamp(32px, 5vw, 48px);
       font-weight: 600;
       letter-spacing: -0.035em;
       line-height: 1;
@@ -498,12 +506,12 @@
 
     .m3-grid-cell {
       background-color: var(--m3-surface-low);
-      padding: 32px;
+      padding: 28px;
       border-radius: var(--m3-radius-inner);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 22px;
+      gap: 20px;
       min-width: 0;
       position: relative;
       overflow: hidden;
@@ -529,7 +537,7 @@
 
     .dev-placeholder-card {
       grid-column: 1 / -1;
-      padding: 56px 36px;
+      padding: 48px 24px;
       text-align: center;
       align-items: center;
       gap: 16px;
@@ -549,7 +557,7 @@
     }
 
     .dev-title {
-      font-size: 26px;
+      font-size: 24px;
       font-weight: 600;
       letter-spacing: -0.02em;
     }
@@ -593,7 +601,7 @@
 
     @media (hover: hover) and (pointer: fine) {
       .m3-grid-cell:hover .cell-icon-pill {
-        border-radius: 22px;
+        border-radius: 20px;
         background-color: var(--m3-primary);
         color: var(--m3-on-primary);
         transform: scale(1.05);
@@ -601,15 +609,16 @@
     }
 
     .cell-title {
-      font-size: 19px;
+      font-size: 18px;
       font-weight: 600;
       letter-spacing: -0.02em;
-      margin-top: 12px;
+      margin-top: 10px;
     }
 
     .cell-chip {
       font-size: 13px;
       color: var(--m3-primary);
+      margin-top: 4px;
     }
 
     .proj-go {
@@ -625,14 +634,14 @@
       }
     }
 
-    .about-cell { min-height: 230px; justify-content: flex-start; gap: 20px; }
-    .kv { list-style: none; display: flex; flex-direction: column; margin-top: 14px; }
+    .about-cell { min-height: 220px; justify-content: flex-start; gap: 16px; }
+    .kv { list-style: none; display: flex; flex-direction: column; margin-top: 8px; }
     .kv li {
       display: flex;
       align-items: baseline;
       justify-content: space-between;
-      gap: 16px;
-      padding: 9px 0;
+      gap: 14px;
+      padding: 10px 0;
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       font-size: 14px;
     }
@@ -643,7 +652,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 40px 24px;
+      padding: 36px 20px;
       background: radial-gradient(circle at 50% 55%, var(--m3-surface-high) 0%, var(--m3-surface-low) 62%);
     }
 
@@ -655,24 +664,17 @@
 
     .phone-single {
       position: relative;
-      width: 190px;
-      height: 380px;
-      border-radius: 36px;
+      width: 180px;
+      height: 360px;
+      border-radius: 34px;
       border: 2px solid var(--m3-surface-highest);
       background-color: var(--m3-surface);
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: transform 320ms var(--m3-spring-morph), box-shadow 320ms ease;
-    }
-
-    @media (hover: hover) and (pointer: fine) {
-      .phone-single:hover {
-        transform: translateY(-4px) scale(1.02);
-        box-shadow: 0 32px 70px rgba(0, 0, 0, 0.85);
-      }
     }
 
     .phone-img {
@@ -696,18 +698,18 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 20px;
+      gap: 18px;
     }
 
     .device-info-header {
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
 
     .spec-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--m3-gap);
-      border-radius: 20px;
+      border-radius: 18px;
       overflow: hidden;
       flex: 1;
     }
@@ -716,55 +718,49 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 8px;
-      padding: 22px 20px;
+      gap: 6px;
+      padding: 18px 16px;
       background-color: var(--m3-surface);
       border-radius: var(--m3-radius-inner);
       transition: background-color 180ms ease;
     }
 
-    @media (hover: hover) and (pointer: fine) {
-      .spec-cell:hover {
-        background-color: var(--m3-surface-high);
-      }
-    }
-
     .spec-lbl {
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--m3-on-surface-muted);
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
 
     .spec-val {
-      font-size: 15px;
+      font-size: 14.5px;
       font-weight: 600;
       color: var(--m3-on-surface);
       line-height: 1.4;
     }
 
     .bio-footer {
-      padding: 60px 0 36px;
-      background-color: rgba(12, 13, 16, 0.78);
+      padding: 50px 0 32px;
+      background-color: rgba(12, 13, 16, 0.85);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      margin-top: 112px;
+      margin-top: 88px;
       overflow: hidden;
       text-align: center;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .bio-wordmark {
-      font-size: clamp(68px, 18vw, 220px);
+      font-size: clamp(52px, 16vw, 190px);
       font-weight: 700;
       letter-spacing: -0.05em;
-      line-height: 0.88;
+      line-height: 0.9;
       color: var(--m3-surface-high);
       user-select: none;
       text-align: center;
       width: 100%;
-      margin: 0 auto 36px auto;
+      margin: 0 auto 28px auto;
       display: block;
     }
 
@@ -774,21 +770,21 @@
       flex-wrap: wrap;
       gap: var(--m3-gap);
       margin: 0 auto;
-      max-width: 720px;
-      border-radius: 22px;
+      max-width: 680px;
+      border-radius: 20px;
       overflow: hidden;
     }
 
     .bio-foot-links a {
-      flex: 1 1 140px;
-      height: 44px;
-      padding: 0 20px;
+      flex: 1 1 120px;
+      height: 42px;
+      padding: 0 16px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       border-radius: var(--m3-radius-inner);
       background-color: var(--m3-surface-low);
-      font-size: 14px;
+      font-size: 13.5px;
       color: var(--m3-on-surface-variant);
       transition: all 260ms var(--m3-spring-morph);
     }
@@ -797,7 +793,7 @@
       .bio-foot-links a:hover {
         background-color: var(--m3-surface-high);
         color: var(--m3-primary);
-        border-radius: 16px;
+        border-radius: 14px;
       }
     }
 
@@ -806,11 +802,11 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-top: 36px;
-      padding-top: 20px;
+      margin-top: 28px;
+      padding-top: 18px;
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       font-family: var(--font-mono);
-      font-size: 12.5px;
+      font-size: 12px;
       color: var(--m3-on-surface-muted);
     }
 
@@ -818,7 +814,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      height: 36px;
+      height: 34px;
       padding: 0 14px;
       border-radius: 18px;
       background-color: var(--m3-surface-low);
@@ -828,7 +824,7 @@
 
     .js .reveal {
       opacity: 0;
-      transform: translateY(18px);
+      transform: translateY(16px);
       transition: opacity 520ms var(--m3-spring-smooth), transform 620ms var(--m3-spring-smooth);
     }
     .js .reveal.in {
@@ -853,30 +849,104 @@
     }
     @keyframes m3RippleExpand { to { transform: scale(1); } }
 
-    @media (max-width: 980px) {
-      .bio-hero-main {
-        grid-template-columns: auto minmax(0, 1fr);
-        grid-template-areas:
-          'av ttl'
-          'lead lead'
-          'cta cta';
-        align-content: center;
-        column-gap: 20px;
-        row-gap: 22px;
-      }
-      .bio-title { grid-area: ttl; }
-      .bio-lead { grid-area: lead; margin-top: 0; }
-      .bio-cta { grid-area: cta; margin-top: 0; }
-      .bio-avatar-wrap { grid-area: av; justify-self: start; width: 118px; }
-      .bio-grid.cols-3, .bio-grid.cols-device { grid-template-columns: minmax(0, 1fr); }
-    }
+    /* ==========================================================================
+       ПОЛНАЯ МОБИЛЬНАЯ АДАПТАЦИЯ (ФИКС ЗУМА И КРИВОЙ ВЕРСТКИ)
+       ========================================================================== */
+    @media (max-width: 860px) {
+      .container { padding: 0 16px; }
 
-    @media (max-width: 760px) {
-      .bio-nav-inner { padding: 9px 16px; justify-content: space-between; }
+      .bio-nav-inner { padding: 8px 14px; justify-content: space-between; }
       .bio-links { display: none; }
       body.at-hero .bio-nav { transform: translateY(-101%); pointer-events: none; }
-      .bio-hero { min-height: calc(100svh - 80px); margin-top: 0; }
-      
+
+      .bio-hero {
+        min-height: auto;
+        margin-top: 0;
+        padding: 40px 0 32px;
+      }
+
+      /* Вертикальное центрированное выстраивание Hero на телефонах */
+      .bio-hero-main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 22px;
+        padding: 16px 0;
+      }
+
+      .bio-avatar-wrap {
+        order: -1;
+        width: 110px;
+        height: 110px;
+      }
+
+      .bio-title {
+        font-size: 52px;
+        line-height: 1;
+      }
+
+      .bio-lead {
+        font-size: 15px;
+        margin-top: 12px;
+        max-width: 100%;
+      }
+
+      .bio-cta {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        width: 100%;
+        gap: 8px;
+        margin-top: 20px;
+      }
+
+      .bio-cta > .m3-btn {
+        flex: 1;
+        padding: 0 16px;
+        font-size: 13.5px;
+        height: 48px;
+      }
+
+      /* Перестройка инфо-стрипа */
+      .bio-strip {
+        grid-template-columns: 1fr;
+        gap: 4px;
+        margin-top: 24px;
+      }
+
+      .strip-cell {
+        padding: 14px 16px;
+      }
+
+      .strip-val {
+        font-size: 14px;
+      }
+
+      /* Все сетки карточек в 1 колонку */
+      .bio-grid.cols-2,
+      .bio-grid.cols-3,
+      .bio-grid.cols-device {
+        grid-template-columns: 1fr;
+      }
+
+      .m3-grid-cell {
+        padding: 22px 18px;
+      }
+
+      .device-visual {
+        padding: 24px 16px;
+      }
+
+      .spec-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .spec-cell {
+        padding: 14px 16px;
+      }
+
+      /* Мобильный нижний док */
       .bio-dock {
         position: fixed;
         left: 0;
@@ -884,12 +954,13 @@
         bottom: 0;
         z-index: 600;
         display: flex;
-        padding: 10px 8px calc(10px + env(safe-area-inset-bottom, 0px));
-        background-color: rgba(28, 29, 34, 0.85);
+        padding: 8px 6px calc(8px + env(safe-area-inset-bottom, 0px));
+        background-color: rgba(22, 23, 28, 0.9);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border-top: 1px solid rgba(255, 255, 255, 0.08);
       }
+
       .dock-item {
         flex: 1;
         display: flex;
@@ -897,9 +968,10 @@
         align-items: center;
         gap: 4px;
         color: var(--m3-on-surface-variant);
-        font-size: 11.5px;
+        font-size: 11px;
         font-weight: 500;
       }
+
       .dock-ico {
         width: 48px;
         height: 28px;
@@ -908,23 +980,16 @@
         border-radius: 14px;
         transition: width 340ms var(--m3-spring-morph), background-color 220ms ease;
       }
+
       .dock-item.is-current .dock-ico {
-        width: 56px;
+        width: 52px;
         background-color: var(--m3-primary);
         color: var(--m3-on-primary);
       }
-      .bio-footer { padding-bottom: 96px; }
-    }
 
-    @media (max-width: 620px) {
-      .bio-hero-main { column-gap: 16px; row-gap: 20px; }
-      .bio-avatar-wrap { width: 92px; }
-      .bio-lead { font-size: 16px; }
-      .bio-title { font-size: clamp(48px, 16vw, 68px); }
-      .bio-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .strip-cell:first-child { grid-column: 1 / -1; }
-      .bio-grid.cols-2, .bio-grid.cols-3 { grid-template-columns: minmax(0, 1fr); }
-      .spec-grid { grid-template-columns: minmax(0, 1fr); }
+      .bio-footer {
+        padding-bottom: 96px;
+      }
     }
   </style>
 </head>
@@ -973,6 +1038,15 @@
 
     <section class="bio-hero">
       <div class="bio-hero-main">
+        <div class="bio-avatar-wrap" aria-hidden="true">
+          <div class="bio-avatar">
+            <img src="avatar.jpg" alt="Avatar" class="bio-avatar-img" onerror="this.style.display='none'; document.getElementById('avatar-fallback').style.display='flex';" />
+            <div class="bio-avatar-fallback" id="avatar-fallback" style="display: none;">
+              <span>RN</span>
+            </div>
+          </div>
+        </div>
+
         <div class="bio-hero-copy">
           <h1 class="bio-title">RUBS_New</h1>
           <p class="bio-lead">Изучаю разработку на Python, настраиваю системы и экспериментирую с железом. Если есть вопросы или идеи — пишите.</p>
@@ -986,38 +1060,29 @@
             </a>
           </div>
         </div>
-
-        <div class="bio-avatar-wrap" aria-hidden="true">
-          <div class="bio-avatar">
-            <img src="avatar.jpg" alt="Avatar" class="bio-avatar-img" onerror="this.style.display='none'; document.getElementById('avatar-fallback').style.display='flex';" />
-            <div class="bio-avatar-fallback" id="avatar-fallback" style="display: none;">
-              <span>RN</span>
-            </div>
-          </div>
-        </div>
       </div>
 
       <div class="bio-strip">
         <div class="strip-cell">
           <span class="strip-ico material-symbols-rounded">code</span>
-          <span class="strip-text">
+          <div class="strip-text">
             <span class="strip-lbl">Основной стек</span>
             <span class="strip-val">Python (учу)</span>
-          </span>
+          </div>
         </div>
         <div class="strip-cell">
           <span class="strip-ico material-symbols-rounded">schedule</span>
-          <span class="strip-text">
+          <div class="strip-text">
             <span class="strip-lbl">Моё время</span>
-            <span class="strip-val mono" id="hero-time">--:--<span class="tz"> · MSK+4</span></span>
-          </span>
+            <span class="strip-val mono" id="hero-time">--:-- · MSK+4</span>
+          </div>
         </div>
         <div class="strip-cell">
           <span class="strip-ico material-symbols-rounded">construction</span>
-          <span class="strip-text">
+          <div class="strip-text">
             <span class="strip-lbl">Статус проектов</span>
             <span class="strip-val mono" style="color:var(--m3-primary);">В разработке</span>
-          </span>
+          </div>
         </div>
       </div>
     </section>
@@ -1217,25 +1282,24 @@
   </footer>
 
   <script>
-    // Логика стартового экрана и принудительного воспроизведения видео
     document.addEventListener('DOMContentLoaded', () => {
       const enterScreen = document.getElementById('enter-screen');
       const vid = document.getElementById('bg-video');
 
       function startSite() {
-        if (enterScreen.classList.contains('is-hidden')) return;
+        if (!enterScreen || enterScreen.classList.contains('is-hidden')) return;
         enterScreen.classList.add('is-hidden');
 
         if (vid) {
           vid.muted = true;
-          vid.play().catch(err => {
-            console.warn('Автовоспроизведение заблокировано браузером:', err);
-          });
+          vid.play().catch(err => console.warn(err));
         }
       }
 
-      enterScreen.addEventListener('click', startSite);
-      enterScreen.addEventListener('touchstart', startSite, { passive: true });
+      if (enterScreen) {
+        enterScreen.addEventListener('click', startSite);
+        enterScreen.addEventListener('touchstart', startSite, { passive: true });
+      }
     });
 
     function updateClock() {
@@ -1243,7 +1307,7 @@
       const now = new Intl.DateTimeFormat([], opt).format(new Date());
       const heroTime = document.getElementById('hero-time');
       const aboutTime = document.getElementById('about-time');
-      if (heroTime) heroTime.innerHTML = `${now.slice(0, 5)}<span class="tz"> · MSK+4</span>`;
+      if (heroTime) heroTime.textContent = `${now.slice(0, 5)} · MSK+4`;
       if (aboutTime) aboutTime.textContent = `${now} (MSK+4)`;
     }
     setInterval(updateClock, 1000);
