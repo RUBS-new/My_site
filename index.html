@@ -97,7 +97,7 @@
 
     .enter-text {
       font-family: var(--font-mono);
-      font-size: 1.25rem;
+      font-size: 1.35rem;
       letter-spacing: 0.12em;
       color: var(--m3-primary);
       text-transform: uppercase;
@@ -1000,7 +1000,7 @@
 <body class="is-home at-hero">
 
   <div class="enter-screen" id="enter-screen">
-    <div class="enter-text" id="enter-text">3</div>
+    <div class="enter-text" id="enter-text">0%</div>
     <div class="enter-hint" id="enter-hint">Загрузка ресурсов...</div>
   </div>
 
@@ -1302,23 +1302,59 @@
       const musicIcon = document.getElementById('music-icon');
 
       let isReady = false;
-      let count = 3;
+      let percent = 0;
+      let videoReady = false;
+      let audioReady = false;
 
       if (vid) {
         vid.load();
+        const onVidLoaded = () => { videoReady = true; };
+        vid.addEventListener('canplay', onVidLoaded, { once: true });
+        vid.addEventListener('loadeddata', onVidLoaded, { once: true });
+        if (vid.readyState >= 2) videoReady = true;
+      } else {
+        videoReady = true;
       }
 
-      const timer = setInterval(() => {
-        count--;
-        if (count > 0) {
-          if (enterText) enterText.textContent = count;
-        } else {
-          clearInterval(timer);
+      if (audio) {
+        audio.load();
+        const onAudioLoaded = () => { audioReady = true; };
+        audio.addEventListener('canplay', onAudioLoaded, { once: true });
+        audio.addEventListener('loadeddata', onAudioLoaded, { once: true });
+        if (audio.readyState >= 2) audioReady = true;
+      } else {
+        audioReady = true;
+      }
+
+      const startTime = performance.now();
+      const minDuration = 5000;
+
+      function updateLoader(now) {
+        const elapsed = now - startTime;
+        let timeProgress = Math.min(elapsed / minDuration, 1);
+        let mediaMultiplier = 1;
+
+        if (timeProgress >= 0.85 && (!videoReady || !audioReady)) {
+          mediaMultiplier = 0.85 / timeProgress;
+        }
+
+        percent = Math.floor(timeProgress * mediaMultiplier * 100);
+
+        if (enterText) {
+          enterText.textContent = `${percent}%`;
+        }
+
+        if (timeProgress >= 1 && (videoReady && audioReady || elapsed > 7000)) {
           isReady = true;
           if (enterText) enterText.textContent = 'Нажми, чтобы продолжить';
           if (enterHint) enterHint.textContent = 'Кликни в любом месте';
+          return;
         }
-      }, 1000);
+
+        requestAnimationFrame(updateLoader);
+      }
+
+      requestAnimationFrame(updateLoader);
 
       function startSite() {
         if (!isReady) return;
